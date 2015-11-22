@@ -1,65 +1,56 @@
+#!/usr/bin/env python
 """
 Program glowny - OPIS UZUPELNIC
+#!/opt/anaconda34/bin/python3 - zmienic interpreter
+#!/home/rexamine/anaconda/bin/python
 """
-#najpierw zrobie wszystko w jednym pliku a potem bede myslec
 
-
-#### PLAN:
 #1 tak by uruchamiało się jako ./beatbox utwor1
 #2 wczytac podany przez uzytkownika katalog
-#if __name__=='__main__':
-#    import sys
-#    print(sys.argv)
-#3 w tym katalogu wyszukac plik song i go wczytac linijka po linijce (for)
-#4 kazdda linijka powinna nas zmusic do wywolania pliku track0X (wczytanie pliku
-# ktorego nazwa to track+01), potem kolejna petla
-# i teraz w tej petli wczytywac 4 sample (wg nazwy tez) i laczyc je w jedna sek???
-# nowego utworu, wg tempa jakiegos jeszcze zrobic to plusami y =  +  +  +
-# potem wychpdznimy z drugiej petli i dodajemy te y do juz istnialego itd.
-# w koncu mamy ostateczne y i to y zapisujemy do pliku
+
+import odczyt
+import zapis
+
+#import importlib
+#importlib.reload(modul1)
 
 
 
+#zakladam, ze lokalizacja z ktorej bedzie brac pliki to ta w ktorej jest
+# beatbox.py
 
+#jako argument przekazujemy utwor1/ 
 
+if __name__=='__main__':
+    import sys
+    # zapisuje nazwe folderu z trackami
+    utwor = sys.argv[1] 
+    
+    # zmieniam sciezke workspace'a
+    import os
+    folder = ''.join([os.getcwd(),'/',utwor])
+    os.chdir(folder)
+    
+    #wczytujemy tracki w jedna dluga macierz
+    macierz_song = odczyt.wczytywanie_sciezek(odczyt.wczytywanie_piosenki())
+    
+    #wczytujemy ustawienia
+    parametry = zapis.wczytywanie_ustawien()
+    
+    #zapisujemy utwor w numpy array
+    pioseneczka = zapis.tworzenie_piosenki(macierz_song, parametry['bpm'])
+    
+    #import numpy as np
+    import scipy.io.wavfile
+    #import scipy.signal
+    
+    # ustawiamy sciezke dostepu do tmp 
+    folder_tmp = '/tmp/'
+    import re
 
-
-
-
-
-
-
-#if __name__=='__main__':
-#    import sys
-#    print(sys.argv)
-
-#   WCZYTYWANIE PLIKOW
-#with open(...) as f:
-#    for line in f:
-# ALBO     content = f.readlines()
-
-
-
-
-
-
-
-
-
-
-
-
-
-#### ZAPIS DO .WAV  - do zapisu utworzonego utworu jako .wav
-
-
-# Wynikiem działania programu jest plik utworX.wav (nazwa taka jak katalogu 
-# wejściowego.
-#import scipy.io.wavfile
-#y = np.r_[dzwiek(440*S**(-2), 0.5, 0.2,0.2),
-#          dzwiek(440*S**(-5), 0.5, 0.2,0.2),
-#          dzwiek(440*S**(-5), 0.5, 0.2,0.2)]
-#scipy.io.wavfile.write('/home/samba/baranowskae/Desktop/test.wav', 
-#                           fs,
-#                           np.int16(y/max(np.abs(y))*32767)
-#                          )     
+    nazwa_pliku = ''.join([folder_tmp,re.sub('/','',utwor),'.wav'])  
+    
+    scipy.io.wavfile.write(nazwa_pliku, 
+                           44100,
+                           pioseneczka
+                           )
