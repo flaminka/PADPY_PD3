@@ -1,0 +1,11 @@
+# DO URUCHOMIENIA PROJEKTU
+
+wchodze w /home/rexamine/Desktop/projekt1
+
+pisze ./beatbox.py utwor1/
+
+potem odtwarzam plik  aplay /tmp/utwor1.wav
+
+
+
+
