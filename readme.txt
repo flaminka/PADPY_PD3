@@ -9,4 +9,9 @@ Rozdzielilam wiekszosc operacji, ktore uznalam za odizolowane jakos od siebie
 do oddzielnych funkcji, zeby moc kontrolowac kolejne wyjscia danych operacji.
 W zwiazku z tym istnieje funkcja skladajaca sie np. z jednej linijki.
 
+Uzywam funkcji numpy.genfromtxt, ktora ma bugga (chyba) gdy wczytywany plik
+tekstowy ma tylko jedna linijke - trzeba wtedy inaczej dostawac sie do 
+zawartosci wczytanego pliku (nie for-em po wierszach, jak w przypadku wielu 
+linii)
+
 Wow, nauczylam sie w koncu co to metrum
