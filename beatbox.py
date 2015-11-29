@@ -31,14 +31,14 @@ if __name__=='__main__':
     folder = ''.join([os.getcwd(),'/',utwor])
     os.chdir(folder)
     
-    #wczytujemy tracki w jedna dluga macierz
-    macierz_song = odczyt.wczytywanie_sciezek(odczyt.wczytywanie_piosenki())
+    #wczytujemy tracki w jedna dluga macierz i zapisuje czy tracki byly ok
+    macierz_song,ok = odczyt.wczytywanie_sciezek(odczyt.wczytywanie_piosenki())
     
     #wczytujemy ustawienia
     parametry = zapis.wczytywanie_ustawien()
     
     #zapisujemy utwor w numpy array
-    pioseneczka = zapis.tworzenie_piosenki(macierz_song, parametry['bpm'])
+    pioseneczka = zapis.tworzenie_piosenki(macierz_song, ok, **parametry)
     
     #import numpy as np
     import scipy.io.wavfile
@@ -50,6 +50,7 @@ if __name__=='__main__':
 
     nazwa_pliku = ''.join([folder_tmp,re.sub('/','',utwor),'.wav'])  
     
+    # zapisujemy plik w folderze tmp pod odpowiednia nazwa
     scipy.io.wavfile.write(nazwa_pliku, 
                            44100,
                            pioseneczka
