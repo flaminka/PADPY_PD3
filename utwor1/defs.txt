@@ -1,7 +1,7 @@
 {
     "bpm": 120
     "freq": 44100
-    "loud": -0.2
+    "loud": 0.2
     "wages": 0.2, 0.4, 0.3, 0.1
     "tryb": sample
 }

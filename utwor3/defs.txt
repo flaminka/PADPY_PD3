@@ -1,0 +1,6 @@
+{
+    "bpm": 120
+    "freq": 44100
+    "loud": 0.8
+    "tryb": nutki
+}

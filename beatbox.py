@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 """
-Program glowny - OPIS UZUPELNIC
-#!/opt/anaconda34/bin/python3 - zmienic interpreter
+Program glowny - tworzenie utworow na podstawie podanych parametrow i dzwiekow
+(albo z nut albo z gotowych sampli)
+#!/opt/anaconda34/bin/python3 - zmienic interpreter ew.
 #!/home/rexamine/anaconda/bin/python
 """
-
-#1 tak by uruchamiało się jako ./beatbox utwor1
-#2 wczytac podany przez uzytkownika katalog
 
 import odczyt
 import zapis
@@ -20,7 +18,6 @@ import nuty
 #zakladam, ze lokalizacja z ktorej bedzie brac pliki to ta w ktorej jest
 # beatbox.py
 
-#jako argument przekazujemy utwor1/ 
 
 if __name__=='__main__':
     import sys
@@ -30,7 +27,7 @@ if __name__=='__main__':
     import os    
     import re
     import zipfile
-   # ustawiamy sciezke dostepu do tmp 
+    # ustawiamy sciezke dostepu do tmp 
     folder_tmp = '/tmp/'    
     
     try: # gdy mamy utwor1.zip
@@ -71,12 +68,14 @@ if __name__=='__main__':
     
     if parametry['tryb'] == 'nutki':
         
+        
+        # wszystkie podane parametry maja byc zdefiniowane
         ustawienia = { 'bpm' : parametry['bpm'],\
                        'freq' : parametry['freq'], \
                        'loud' : parametry['loud'], \
                        'slownik_nut' : nuty.tworzenie_nutek()}
         
-        #wczytujemy tracki w jedna dluga macierz i zapisuje czy tracki byly ok
+        #wczytujemy tracki w jedna dluga macierz
         macierz_song = nuty.wczytywanie_sciezek_nuty(\
                                                 odczyt.wczytywanie_piosenki())
     
@@ -87,6 +86,7 @@ if __name__=='__main__':
         
     if parametry['tryb'] == 'sample':
         
+        # wszystkie podane parametry maja byc zdefiniowane
         ustawienia = { 'bpm' : parametry['bpm'],\
                        'freq' : parametry['freq'], \
                        'wages': parametry['wages'],\

@@ -163,8 +163,10 @@ def tworzenie_piosenki_nuty(macierz_piosenki, slownik_nut, bpm = 120, \
         t = np.linspace(0, t_cwiercnuty, ile_nutka)
         # macierz danej nutki okreslajaca jej wysokosc
         y = np.sin(2*np.pi*slownik_nut[dzwiek]*t + 0.1)
+        
         # wstawiamy ja w odpowiednie miejsce
         T[nr_dzwieku*ile_nutka : nr_dzwieku*ile_nutka + ile_nutka] = y
+               
         nr_dzwieku +=1
       
     # zamieniamy na odpowiednie wartosci
