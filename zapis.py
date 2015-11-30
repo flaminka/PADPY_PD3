@@ -47,13 +47,30 @@ def wczytywanie_ustawien(plik_konfiguracyjny = "defs.txt"):
     
     # zamieniamy napisy na odpowiednie wartosci - kontroluje te parametry, wiec
     # robie to recznie
+    
+    try:
+        parametry['tryb'] = parametry['tryb'].strip()  #tryb
+    # jak nie podano danego parametru to idz dalej, nie wyrzucaj bledu
+    except KeyError:
+        print("Podaj tryb odczytu!")
     try:
         parametry['bpm'] = int(parametry['bpm']) # tempo
+    # jak nie podano danego parametru to idz dalej, nie wyrzucaj bledu
+    except KeyError:
+        pass
+    try:
         parametry['freq'] = int(parametry['freq']) # frekwencja wyjsciowego wav
+    # jak nie podano danego parametru to idz dalej, nie wyrzucaj bledu
+    except KeyError:
+        pass
+    try:
         parametry['loud'] = float(parametry['loud'] ) # glosnosc
+    # jak nie podano danego parametru to idz dalej, nie wyrzucaj bledu
+    except KeyError:
+        pass
+    try:
         # lista wag dla sampli
         parametry['wages'] = [float(s) for s in parametry['wages'].split(",")] 
-    
     # jak nie podano danego parametru to idz dalej, nie wyrzucaj bledu
     except KeyError:
         pass
@@ -241,10 +258,6 @@ def tworzenie_piosenki(macierz_piosenki, czy_pelna = True, bpm = 120, \
             #otrzymamy wymiar (1, x), a chcemy (x,), wiec bierzemy pierwszy 
             # element
             cwiercnuta = cwiercnuta[0]
-                        
-            # jesli dodanie ostatnich cwiercnut bedzie wiazalo sie z 
-            # przekroczeniem dlugosci tworzonego utworu, obcinamy ostatnie 
-            # dzwieki, tak by zmiescic sie w tej dlugosci
             
             # poczatek biezacej cwiercnuty 
             poczatek_cwiercnuty = int(wiersz*t_cwiercnuty*frekw)

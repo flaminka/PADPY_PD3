@@ -10,6 +10,7 @@ Program glowny - OPIS UZUPELNIC
 
 import odczyt
 import zapis
+import nuty
 
 #import importlib
 #importlib.reload(modul1)
@@ -47,33 +48,59 @@ if __name__=='__main__':
             zipek = zipfile.ZipFile(argument)
             zipek.extractall(folder_tmp)
             zipek.close()
+            # wyciagam nazwe utworu
             nazwa_utworu = re.sub('.zip','',argument)
             folder = ''.join([folder_tmp, nazwa_utworu, '/'])
+            # zmieniam sciezke workspace'a
             os.chdir(folder)  
+            # zapisuje nazwe utworu jako wav
             nazwa_pliku = ''.join([folder_tmp, nazwa_utworu, '.wav'])
         f.close()
     except UnicodeDecodeError:
         print("Nie to kodowanie :/")
     except IsADirectoryError: # gdy mamy utwor1/
         folder = ''.join([os.getcwd(),'/',argument])
+        # zmieniam sciezke workspace'a
         os.chdir(folder)
         nazwa_pliku = ''.join([folder_tmp, re.sub('/','',argument), '.wav'])
         
         
     
-    
-    # zmieniam sciezke workspace'a
-    
-
-    
-    #wczytujemy tracki w jedna dluga macierz i zapisuje czy tracki byly ok
-    macierz_song,ok = odczyt.wczytywanie_sciezek(odczyt.wczytywanie_piosenki())
-    
     #wczytujemy ustawienia
-    parametry = zapis.wczytywanie_ustawien()
+    parametry = zapis.wczytywanie_ustawien()    
     
-    #zapisujemy utwor w numpy array
-    pioseneczka = zapis.tworzenie_piosenki(macierz_song, ok, **parametry)
+    if parametry['tryb'] == 'nutki':
+        
+        ustawienia = { 'bpm' : parametry['bpm'],\
+                       'freq' : parametry['freq'], \
+                       'loud' : parametry['loud'], \
+                       'slownik_nut' : nuty.tworzenie_nutek()}
+        
+        #wczytujemy tracki w jedna dluga macierz i zapisuje czy tracki byly ok
+        macierz_song = nuty.wczytywanie_sciezek_nuty(\
+                                                odczyt.wczytywanie_piosenki())
+    
+        #zapisujemy utwor w numpy array
+        pioseneczka = nuty.tworzenie_piosenki_nuty(macierz_song, **ustawienia)
+        
+        
+        
+    if parametry['tryb'] == 'sample':
+        
+        ustawienia = { 'bpm' : parametry['bpm'],\
+                       'freq' : parametry['freq'], \
+                       'wages': parametry['wages'],\
+                       'loud' : parametry['loud']}
+        
+        #wczytujemy tracki w jedna dluga macierz i zapisuje czy tracki byly ok
+        macierz_song, ok = odczyt.wczytywanie_sciezek(\
+                                                odczyt.wczytywanie_piosenki())
+    
+        #zapisujemy utwor w numpy array
+        pioseneczka = zapis.tworzenie_piosenki(macierz_song, ok, **ustawienia)
+       
+    
+    
     
     #import numpy as np
     import scipy.io.wavfile
@@ -82,6 +109,6 @@ if __name__=='__main__':
 
     # zapisujemy plik w folderze tmp pod odpowiednia nazwa
     scipy.io.wavfile.write(nazwa_pliku, 
-                           44100,
+                           parametry['freq'],
                            pioseneczka
                            )
